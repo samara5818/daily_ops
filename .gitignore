@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+*.log
+.env
+.venv/
+venv/
+env/
+
+# DB files
+*.db
+*.sqlite
+*.sqlite3
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (if any)
+node_modules/
+backend/alembic/versions/

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Ops Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body class="profile-body">
+  <div class="ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="page profile-page">
+    <div class="loader" id="page-loader">
+      <div class="loader-card">
+        <div class="pill">Daily Ops</div>
+        <h2>Loading profile…</h2>
+        <p>Syncing your schedule and signals.</p>
+      </div>
+    </div>
+    <header class="topbar">
+      <div class="brand">
+        <div class="pill">Daily Ops</div>
+        <h1>Profile &amp; Schedule</h1>
+        <p>Personal details, daily schedule, and execution status.</p>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="profile.html" class="active">Profile</a>
+        <a href="login.html" id="nav-login">Login</a>
+      </nav>
+      <div class="actions">
+        <button class="btn primary" id="btn-plan">Run Planner</button>
+        <button class="btn ghost" id="btn-logout">Log out</button>
+      </div>
+    </header>
+
+    <section class="statusbar">
+      <div>
+        <span class="label">Status</span>
+        <span class="value" id="status-text">Loading</span>
+      </div>
+      <div>
+        <span class="label">Last Sync</span>
+        <span class="value" id="last-sync">--:--</span>
+      </div>
+      <div>
+        <span class="label">Active Jobs</span>
+        <span class="value" id="job-count">0</span>
+      </div>
+      <div>
+        <span class="label">Account</span>
+        <span class="value" id="account-status">--</span>
+      </div>
+    </section>
+
+    <main class="grid">
+      <section class="card" data-delay="0">
+        <div class="card-header">
+          <h2>Personal details</h2>
+          <span class="tag">Profile</span>
+        </div>
+        <div class="profile-grid" id="profile-grid"></div>
+        <div class="profile-actions" id="profile-actions">
+          <button class="btn ghost" id="profile-edit" type="button">Edit</button>
+          <span class="profile-message" id="profile-message-readonly">Profile data powers the planner.</span>
+        </div>
+      </section>
+
+      <section class="card" data-delay="80">
+        <div class="card-header">
+          <h2>Calendar</h2>
+          <span class="tag">Planner</span>
+        </div>
+        <div class="calendar">
+          <div class="calendar-strip" id="calendar-strip"></div>
+          <div class="calendar-controls">
+            <label class="field">
+              <span>Pick a date</span>
+              <input type="date" id="calendar-input" />
+            </label>
+            <div class="calendar-actions">
+              <button class="btn ghost" id="btn-load-day" type="button">Load day</button>
+              <button class="btn primary" id="btn-schedule-day" type="button">Schedule day</button>
+            </div>
+            <div class="calendar-meta" id="calendar-selected">Selected: Today</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-delay="160">
+        <div class="card-header">
+          <h2>Day schedule</h2>
+          <span class="tag">Jobs</span>
+        </div>
+        <div class="calendar-meta" id="day-schedule-label">Selected: Today</div>
+        <div class="day-override" id="day-override"></div>
+        <div class="timeline" id="schedule-list"></div>
+      </section>
+
+      <section class="card" data-delay="240">
+        <div class="card-header">
+          <h2>Planner output</h2>
+          <span class="tag">Actions</span>
+        </div>
+        <div class="timeline" id="plan-list"></div>
+      </section>
+
+      <section class="card" data-delay="320">
+        <div class="card-header">
+          <h2>Signals</h2>
+          <span class="tag">Context</span>
+        </div>
+        <div class="signal-list" id="signal-list"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Authenticated via JWT</span>
+      <span class="mono">/auth/me, /jobs, /plan-and-schedule/{user_id}</span>
+    </footer>
+  </div>
+
+  <div class="modal hidden" id="schedule-modal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <h3>Schedule a day</h3>
+            <p id="modal-date-label">Selected date</p>
+            <p class="modal-subtle" id="modal-last-updated">No saved schedule</p>
+          </div>
+          <button class="btn ghost" id="modal-close" type="button">Close</button>
+        </div>
+      <form id="schedule-form" class="modal-form">
+        <div class="modal-grid">
+          <label class="field">
+            <span>Work shift type</span>
+            <select id="modal-shift-type">
+              <option value="off">Off</option>
+              <option value="day">Day</option>
+              <option value="night">Night</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Shift start</span>
+            <input type="time" id="modal-shift-start" />
+          </label>
+          <label class="field">
+            <span>Shift end</span>
+            <input type="time" id="modal-shift-end" />
+          </label>
+          <label class="field">
+            <span>Goal focus</span>
+            <input type="text" id="modal-goal" placeholder="gain_weight / job_search" />
+          </label>
+          <label class="field">
+            <span>Preferred diet</span>
+            <input type="text" id="modal-diet" placeholder="vegetarian" />
+          </label>
+        </div>
+
+        <div class="appointments">
+          <div class="appointments-header">
+            <span>Appointments</span>
+            <button class="btn ghost" id="add-appointment" type="button">Add appointment</button>
+          </div>
+          <div id="appointments-list"></div>
+        </div>
+
+        <label class="field">
+          <span>Notes for the day</span>
+          <textarea id="modal-notes" rows="3" placeholder="Anything else that matters today..."></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button class="btn primary" type="submit">Save &amp; plan day</button>
+          <span class="profile-message" id="modal-message">We will use this to plan the day.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="profile-modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3>Edit profile</h3>
+          <p>Update your personal and health details.</p>
+        </div>
+        <button class="btn ghost" id="profile-modal-close" type="button">Close</button>
+      </div>
+      <form id="profile-form" class="modal-form">
+        <div class="modal-grid">
+          <label class="field">
+            <span>Name</span>
+            <input type="text" id="profile-name" placeholder="Your name" />
+          </label>
+          <label class="field">
+            <span>Phone</span>
+            <input type="tel" id="profile-phone" placeholder="+1 555 123 4567" />
+          </label>
+          <label class="field">
+            <span>Timezone</span>
+            <input type="text" id="profile-timezone" placeholder="America/Los_Angeles" />
+          </label>
+          <label class="field">
+            <span>Height (cm)</span>
+            <input type="number" id="health-height" placeholder="175.5" step="0.01" />
+          </label>
+          <label class="field">
+            <span>Weight (kg)</span>
+            <input type="number" id="health-weight" placeholder="60.0" step="0.01" />
+          </label>
+          <label class="field">
+            <span>Target weight (kg)</span>
+            <input type="number" id="health-target" placeholder="65.0" step="0.01" />
+          </label>
+          <label class="field">
+            <span>Activity level</span>
+            <input type="text" id="health-activity" placeholder="moderate" />
+          </label>
+          <label class="field">
+            <span>Workout experience</span>
+            <input type="text" id="health-experience" placeholder="beginner" />
+          </label>
+          <label class="field">
+            <span>Dietary goal</span>
+            <input type="text" id="health-goal" placeholder="bulking" />
+          </label>
+          <label class="field">
+            <span>Water goal (ml)</span>
+            <input type="number" id="health-water" placeholder="2500" />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button class="btn primary" id="profile-save" type="submit">Save profile</button>
+          <span class="profile-message" id="profile-message">Profile data powers the planner.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html>

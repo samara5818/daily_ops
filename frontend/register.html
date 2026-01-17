@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Ops Register</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="register.css" />
+</head>
+<body>
+  <div class="ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="page auth-page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="pill">Daily Ops</div>
+        <h1>Create Account</h1>
+        <p>Set up your profile and start building daily momentum.</p>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="login.html">Back to Login</a>
+      </div>
+    </header>
+
+    <main class="auth-shell">
+      <section class="card auth-card">
+        <div class="card-header">
+          <h2>Register</h2>
+          <span class="tag">Password</span>
+        </div>
+        <form id="register-form" class="auth-form">
+          <label class="field">
+            <span>Email</span>
+            <input type="email" id="register-email" placeholder="you@example.com" required />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input type="password" id="register-password" placeholder="Minimum 8 characters" required />
+          </label>
+          <button class="btn primary" type="submit">Create account</button>
+        </form>
+        <div class="auth-message" id="register-message">You will be signed in automatically.</div>
+      </section>
+
+      <section class="card auth-card side">
+        <h3>Next steps</h3>
+        <ul class="auth-list">
+          <li>Review your shift schedule</li>
+          <li>Set workout and meal goals</li>
+          <li>Start the planner and schedule reminders</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="register.js"></script>
+</body>
+</html>

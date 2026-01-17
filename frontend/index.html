@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Ops Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="pill">Daily Ops</div>
+        <h1>Operations Dashboard</h1>
+        <p>Plan, schedule, and track your daily system.</p>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="login.html" id="nav-login">Login</a>
+        <button class="nav-logout" id="nav-logout" type="button">Logout</button>
+      </nav>
+      <div class="actions">
+        <button class="btn primary" id="btn-plan">Plan &amp; Schedule</button>
+        <button class="btn ghost" id="btn-refresh">Refresh Jobs</button>
+      </div>
+    </header>
+
+    <section class="statusbar">
+      <div>
+        <span class="label">Status</span>
+        <span class="value" id="status-text">Idle</span>
+      </div>
+      <div>
+        <span class="label">Last Sync</span>
+        <span class="value" id="last-sync">--:--</span>
+      </div>
+      <div>
+        <span class="label">Active Jobs</span>
+        <span class="value" id="job-count">0</span>
+      </div>
+    </section>
+
+    <main class="grid">
+      <section class="card summary" data-delay="0">
+        <div class="card-header">
+          <h2>Today at a glance</h2>
+          <span class="tag">Live</span>
+        </div>
+        <div class="summary-grid" id="summary-grid"></div>
+      </section>
+
+      <section class="card plan" data-delay="80">
+        <div class="card-header">
+          <h2>Plan timeline</h2>
+          <span class="tag">Next 12h</span>
+        </div>
+        <div class="timeline" id="plan-list"></div>
+      </section>
+
+      <section class="card jobs" data-delay="160">
+        <div class="card-header">
+          <h2>Scheduled jobs</h2>
+          <span class="tag">APScheduler</span>
+        </div>
+        <div class="job-list" id="job-list"></div>
+      </section>
+
+      <section class="card signals" data-delay="240">
+        <div class="card-header">
+          <h2>Signals</h2>
+          <span class="tag">Context</span>
+        </div>
+        <div class="signal-list" id="signal-list"></div>
+      </section>
+
+      <section class="card focus" data-delay="320">
+        <div class="card-header">
+          <h2>Focus rules</h2>
+          <span class="tag">Planner</span>
+        </div>
+        <ul class="rules">
+          <li>Keep reminders out of quiet hours (23:00-07:00).</li>
+          <li>Schedule workout + breakfast before shift.</li>
+          <li>Daily brief includes shift, meals, and job sprint target.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Backend endpoints: /plan-and-schedule/{user_id}, /jobs</span>
+      <span class="mono">localhost API assumed</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
